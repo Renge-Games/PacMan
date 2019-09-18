@@ -41,7 +41,7 @@ namespace PacMan {
             GameData.FruitScore = 500;
             GameData.GhostEatScore = 100;
             GameData.GhostEatMultiplier = 2;
-            GameData.LevelCompleteScore = 1000;
+            GameData.LevelCompleteScore = 2000;
             GameData.GameLevel = 0;
 
             using (StreamReader sr = new StreamReader("score.txt")) {
@@ -71,7 +71,10 @@ namespace PacMan {
                 player.Lives = lives;
                 player.Score = score;
             }
-            player.Speed = Math.Min(8, 0.75f + 1.2f * (GameData.GameLevel + 1) * 0.5f);
+
+            float speed = Math.Min(3f, 1.2f + GameData.GameLevel * 0.3f);
+
+            player.Speed = speed;
             GameData.Player = player;
             player.Start();
 
@@ -87,10 +90,12 @@ namespace PacMan {
             enemies[2].Start();
             enemies[3].Start();
 
-            enemies[0].SetSpeed(Math.Min(7f, 0.5f + 1.1f * (GameData.GameLevel + 1) * 0.5f));
-            enemies[1].SetSpeed(Math.Min(7f, 0.5f + 1.1f * (GameData.GameLevel + 1) * 0.5f));
-            enemies[2].SetSpeed(Math.Min(7f, 0.5f + 1.1f * (GameData.GameLevel + 1) * 0.5f));
-            enemies[3].SetSpeed(Math.Min(7f, 0.5f + 1.1f * (GameData.GameLevel + 1) * 0.5f));
+            speed = Math.Min(2f, 1.2f + GameData.GameLevel * 0.25f);
+
+            enemies[0].SetSpeed(speed);
+            enemies[1].SetSpeed(speed);
+            enemies[2].SetSpeed(speed);
+            enemies[3].SetSpeed(speed);
         }
 
         protected override void UnloadContent() {
@@ -106,6 +111,7 @@ namespace PacMan {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            //pause game while the counter is greater than 0
             if (counter > 0) {
                 counter--;
             } else {

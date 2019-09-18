@@ -83,10 +83,9 @@ namespace PacMan {
         }
 
         /// <summary>
-        /// Move the entity to the specified position at its maximum speed
+        /// Move the entity toward the specified position at its maximum speed
         /// </summary>
         /// <param name="p">the target location</param>
-        /// <param name="force">ignore collisions (this is only useful for moving more than one node at a time as the AI can't think that far ahead)</param>
         public void MoveTo(Point p) {
             TargetPosition = p;
             if (Position.ToPoint() != TargetPosition) {
@@ -105,7 +104,7 @@ namespace PacMan {
             if (remainingPixelsToTarget <= 0 || !IsMoving(true)) {
                 remainingPixelsToTarget = GameData.TileSize.X;
                 TargetGridPosition = GridPosition + Direction;
-                GridPosition = GridPosition; // possible because of the way it's defined. Basically aligns the entity to the center of the node
+                GridPosition = GridPosition; // this is correct because of the way it's defined (check get and set of GridPosition). Basically aligns the entity to the center of the node
 
                 Point np = GridPosition + nextMove; //next position
                 if (nextMove != null && nextMove != new Point(0) && !GameData.OutOfBounds(GridPosition) && 

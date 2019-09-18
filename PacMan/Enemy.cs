@@ -16,6 +16,7 @@ namespace PacMan {
         protected List<Point> frightened;
         protected List<Point> recovering;
 
+        //for the sprite sheet
         protected List<Point> upD;
         protected List<Point> downD;
         protected List<Point> leftD;
@@ -114,6 +115,7 @@ namespace PacMan {
                 case AIModifier.Chase:
                     SavedModifier = AIModifier.Chase;
                     Speed = SavedSpeed;
+                    //after 20 seconds, lay off the player and go to one of the map corners
                     if (Timer.ElapsedMilliseconds > 20000) {
                         SetModifier(AIModifier.Scatter);
                     }
@@ -121,6 +123,7 @@ namespace PacMan {
                 case AIModifier.Scatter:
                     SavedModifier = AIModifier.Scatter;
                     Speed = SavedSpeed;
+                    //after 7 seconds resume chasing the player
                     if (Timer.ElapsedMilliseconds > 7000) {
                         SetModifier(AIModifier.Chase);
                     }
@@ -132,6 +135,8 @@ namespace PacMan {
                         GameData.Player.GhostEatCount++;
                         GameData.Player.Score += (GameData.GhostEatScore * GameData.GhostEatMultiplier * GameData.Player.GhostEatCount);
                     }
+                    //before 6 seconds pass, give the ghost a solid blue sprite
+                    //after 6 seconds, alternate blue and white sprites every 100 milliseconds to indicate end of frightened state
                     if (Timer.ElapsedMilliseconds < 6000 || Timer.ElapsedMilliseconds % 200 < 100)
                         SourceRect = new Rectangle(spriteSheetOrigin * new Point((int)SpriteSize.Tile) + frameSize * frightened[(int)animCounter], frameSize);
                     else
